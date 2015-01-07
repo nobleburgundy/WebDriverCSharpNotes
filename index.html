@@ -1,36 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Web Driver/C# Notes : Ongoing notes on using WebDriver with C# for automation">
+    <title>Webdrivercsharpnotes by nobleburgundy</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Web Driver/C# Notes</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Webdrivercsharpnotes</h1>
+        <p>Ongoing notes on using WebDriver with C# for automation</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/nobleburgundy/WebDriverCSharpNotes">View on GitHub</a>
+        <p class="view"><a href="https://github.com/nobleburgundy/WebDriverCSharpNotes">View the Project on GitHub <small>nobleburgundy/WebDriverCSharpNotes</small></a></p>
 
-          <h1 id="project_title">Webdrivercsharpnotes</h1>
-          <h2 id="project_tagline">Ongoing notes on using WebDriver with C# for automation</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/nobleburgundy/WebDriverCSharpNotes/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/nobleburgundy/WebDriverCSharpNotes/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/nobleburgundy/WebDriverCSharpNotes/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/nobleburgundy/WebDriverCSharpNotes/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/nobleburgundy/WebDriverCSharpNotes">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <h2>
 <a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h2>
 
@@ -46,13 +43,12 @@
 <li>Once the packages are installed, add the following <strong>Using</strong> statements at the beginning of your test file.</li>
 </ol>
 
-<pre><code>using System.Collections.Generic;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> System.Collections.Generic;
+<span class="pl-k">using</span> OpenQA.Selenium;
+<span class="pl-k">using</span> OpenQA.Selenium.Firefox;
+<span class="pl-k">using</span> OpenQA.Selenium.IE;
+<span class="pl-k">using</span> OpenQA.Selenium.Chrome;
+<span class="pl-k">using</span> OpenQA.Selenium.Support.UI;</pre></div>
 
 <h3>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>EXAMPLES</h3>
@@ -60,138 +56,121 @@ using OpenQA.Selenium.Support.UI;
 <h4>
 <a id="creating-the-driver-object--open-to-url" class="anchor" href="#creating-the-driver-object--open-to-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATING THE DRIVER OBJECT &amp; OPEN TO URL</h4>
 
-<pre><code>string vetURL = "http://nt124181:5503/";
-IWebDriver driver = new FirefoxDriver();
-driver.Url = vetURL;
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-st">string</span> vetURL = <span class="pl-s1"><span class="pl-pds">"</span>http://nt124181:5503/<span class="pl-pds">"</span></span>;
+IWebDriver driver = <span class="pl-s">new</span> FirefoxDriver();
+driver.Url = vetURL;</pre></div>
 
 <h4>
 <a id="setting-implicit-wait-timeout-to-wait-for-elements-to-appear" class="anchor" href="#setting-implicit-wait-timeout-to-wait-for-elements-to-appear" aria-hidden="true"><span class="octicon octicon-link"></span></a>SETTING IMPLICIT WAIT (timeout to wait for elements to appear)</h4>
 
-<pre><code>driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
-</code></pre>
+<div class="highlight highlight-c#"><pre>driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(<span class="pl-c1">20</span>));</pre></div>
 
 <h4>
 <a id="delaysleep" class="anchor" href="#delaysleep" aria-hidden="true"><span class="octicon octicon-link"></span></a>DELAY/SLEEP</h4>
 
-<pre><code>using System.Threading;//required
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> System.Threading;<span class="pl-c">//required</span>
 
-Thread.Sleep(5000);
-</code></pre>
+Thread.Sleep(<span class="pl-c1">5000</span>);</pre></div>
 
 <h4>
 <a id="login-example" class="anchor" href="#login-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>LOGIN EXAMPLE</h4>
 
-<pre><code>string userName = "pos@mailinator.com"; string password = "Pattnt1*";
-driver.FindElement(By.Id("UserName")).SendKeys(userName);
-driver.FindElement(By.Id("Password")).SendKeys(password);
-driver.FindElement(By.Id("loginSubmit")).Click();
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-st">string</span> userName = <span class="pl-s1"><span class="pl-pds">"</span>pos@mailinator.com<span class="pl-pds">"</span></span>; <span class="pl-st">string</span> password = <span class="pl-s1"><span class="pl-pds">"</span>Pattnt1*<span class="pl-pds">"</span></span>;
+driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>UserName<span class="pl-pds">"</span></span>)).SendKeys(userName);
+driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>Password<span class="pl-pds">"</span></span>)).SendKeys(password);
+driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>loginSubmit<span class="pl-pds">"</span></span>)).Click();</pre></div>
 
 <h4>
 <a id="using-assert-to-report-failure" class="anchor" href="#using-assert-to-report-failure" aria-hidden="true"><span class="octicon octicon-link"></span></a>USING ASSERT TO REPORT FAILURE</h4>
 
-<pre><code>if (driver.FindElement(By.Id("addCartItemItemNum")).Displayed != true)
+<div class="highlight highlight-c#"><pre><span class="pl-k">if</span> (driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>addCartItemItemNum<span class="pl-pds">"</span></span>)).Displayed != <span class="pl-c1">true</span>)
 {
-    Assert.Fail("Unable to verify the Quick Order Portlet exists.");
-}
-</code></pre>
+    Assert.Fail(<span class="pl-s1"><span class="pl-pds">"</span>Unable to verify the Quick Order Portlet exists.<span class="pl-pds">"</span></span>);
+}</pre></div>
 
 <h4>
 <a id="getting-radio-button-value" class="anchor" href="#getting-radio-button-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>GETTING RADIO BUTTON VALUE</h4>
 
-<pre><code>string radioVal = driver.FindElement(By.ClassName("non")).GetAttribute("value");
-if (radioVal != "GR")
+<div class="highlight highlight-c#"><pre><span class="pl-st">string</span> radioVal = driver.FindElement(By.ClassName(<span class="pl-s1"><span class="pl-pds">"</span>non<span class="pl-pds">"</span></span>)).GetAttribute(<span class="pl-s1"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>);
+<span class="pl-k">if</span> (radioVal != <span class="pl-s1"><span class="pl-pds">"</span>GR<span class="pl-pds">"</span></span>)
 {
-    Assert.Fail("The radio value not set to 'Ground' as expected. Radio val = " + radioVal);
-}
-</code></pre>
+    Assert.Fail(<span class="pl-s1"><span class="pl-pds">"</span>The radio value not set to 'Ground' as expected. Radio val = <span class="pl-pds">"</span></span> + radioVal);
+}</pre></div>
 
 <h4>
 <a id="get-text-field-value" class="anchor" href="#get-text-field-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET TEXT FIELD VALUE</h4>
 
-<pre><code>string specialInstructionsValue = driver.FindElement(By.Id("ShippingNote")).Text;
-if (specialInstructionsFieldValue.Length &gt; 0)
+<div class="highlight highlight-c#"><pre><span class="pl-st">string</span> specialInstructionsValue = driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>ShippingNote<span class="pl-pds">"</span></span>)).Text;
+<span class="pl-k">if</span> (specialInstructionsFieldValue.Length &gt; <span class="pl-c1">0</span>)
 {
-    Assert.Fail("Special Instructions field populated by default.);
-    driver.FindElement(By.Id("ShippingNote")).Clear();
-}
-</code></pre>
+    Assert.Fail(<span class="pl-s1"><span class="pl-pds">"</span>Special Instructions field populated by default.);</span>
+<span class="pl-s1">    driver.FindElement(By.Id(<span class="pl-pds">"</span></span>ShippingNote<span class="pl-s1"><span class="pl-pds">"</span>)).Clear();</span>
+<span class="pl-s1">}</span></pre></div>
 
 <h4>
 <a id="cycle-through-a-number-of-elements--look-for-text" class="anchor" href="#cycle-through-a-number-of-elements--look-for-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>CYCLE THROUGH A NUMBER OF ELEMENTS &amp; LOOK FOR TEXT</h4>
 
-<pre><code>IReadOnlyCollection&lt;IWebElement&gt; textAreas = driver.FindElements(By.ClassName("contentAreaText"));
-bool noneFound = false;
-foreach(IWebElement textArea in textAreas)
+<div class="highlight highlight-c#"><pre>IReadOnlyCollection&lt;IWebElement&gt; textAreas = driver.FindElements(By.ClassName(<span class="pl-s1"><span class="pl-pds">"</span>contentAreaText<span class="pl-pds">"</span></span>));
+<span class="pl-st">bool</span> noneFound = <span class="pl-c1">false</span>;
+<span class="pl-k">foreach</span>(IWebElement textArea <span class="pl-k">in</span> textAreas)
 {
-    string text = textArea.Text;
-    if (text.IndexOf("None") &gt; -1)
+    <span class="pl-st">string</span> text = textArea.Text;
+    <span class="pl-k">if</span> (text.IndexOf(<span class="pl-s1"><span class="pl-pds">"</span>None<span class="pl-pds">"</span></span>) &gt; -<span class="pl-c1">1</span>)
     {
-        noneFound = true;
-        break;
+        noneFound = <span class="pl-c1">true</span>;
+        <span class="pl-k">break</span>;
     }
 }
-if (noneFound != true)
+<span class="pl-k">if</span> (noneFound != <span class="pl-c1">true</span>)
 {
-    Assert.Fail("Unable to verify the Additional Charges is set to 'None'.");
-}
-</code></pre>
+    Assert.Fail(<span class="pl-s1"><span class="pl-pds">"</span>Unable to verify the Additional Charges is set to 'None'.<span class="pl-pds">"</span></span>);
+}</pre></div>
 
 <p>Use <strong>IList</strong> to cycle through elements using the index...</p>
 
-<pre><code>IList&lt;IWebElement&gt; reviewLinks = driver.FindElements(By.LinkText("Review"));
-for (i = 1; i &lt; reviewLinks.Count; i++)
+<div class="highlight highlight-c#"><pre>IList&lt;IWebElement&gt; reviewLinks = driver.FindElements(By.LinkText(<span class="pl-s1"><span class="pl-pds">"</span>Review<span class="pl-pds">"</span></span>));
+<span class="pl-k">for</span> (i = <span class="pl-c1">1</span>; i &lt; reviewLinks.Count; i++)
 {
-    if (reviewLinks[i].Text;
-}
-</code></pre>
+    <span class="pl-k">if</span> (reviewLinks[i].Text;
+}</pre></div>
 
 <h4>
 <a id="iterate-through-a-table" class="anchor" href="#iterate-through-a-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>ITERATE THROUGH A TABLE</h4>
 
-<pre><code>IWebElement table = driver.FindElement(By.ID("orderTable"));
-ReadOnlyCollection&lt;IWebElement&gt; allRows = table.FindElements(By.TagName("tr"));
+<div class="highlight highlight-c#"><pre>IWebElement table = driver.FindElement(By.ID(<span class="pl-s1"><span class="pl-pds">"</span>orderTable<span class="pl-pds">"</span></span>));
+ReadOnlyCollection&lt;IWebElement&gt; allRows = table.FindElements(By.TagName(<span class="pl-s1"><span class="pl-pds">"</span>tr<span class="pl-pds">"</span></span>));
 
-foreach (IWebElement row in allRows)
+<span class="pl-k">foreach</span> (IWebElement row <span class="pl-k">in</span> allRows)
 {
-    ReadOnlyCollection&lt;IWebElement&gt; cells = row.FindElements(By.TagName("td"));
+    ReadOnlyCollection&lt;IWebElement&gt; cells = row.FindElements(By.TagName(<span class="pl-s1"><span class="pl-pds">"</span>td<span class="pl-pds">"</span></span>));
 
-    foreach (IWebElement cell in cells)
+    <span class="pl-k">foreach</span> (IWebElement cell <span class="pl-k">in</span> cells)
     {
-        Console.WriteLIne("cell text = " + cell.Text);
+        Console.WriteLIne(<span class="pl-s1"><span class="pl-pds">"</span>cell text = <span class="pl-pds">"</span></span> + cell.Text);
     }
 }
-
-</code></pre>
+</pre></div>
 
 <h4>
 <a id="select-option-in-drop-down-list" class="anchor" href="#select-option-in-drop-down-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT OPTION IN DROP DOWN LIST</h4>
 
-<pre><code>IWebElement e = driver.FindElement(By.Id("CreditCardModel_CardType"));
-SelectElement select = new SelectElement(e);
-select.SelectByText("Visa");
-</code></pre>
+<div class="highlight highlight-c#"><pre>IWebElement e = driver.FindElement(By.Id(<span class="pl-s1"><span class="pl-pds">"</span>CreditCardModel_CardType<span class="pl-pds">"</span></span>));
+SelectElement <span class="pl-k">select</span> = <span class="pl-s">new</span> SelectElement(e);
+<span class="pl-k">select</span>.SelectByText(<span class="pl-s1"><span class="pl-pds">"</span>Visa<span class="pl-pds">"</span></span>);</pre></div>
 
 <h4>
 <a id="writing-info-to-log" class="anchor" href="#writing-info-to-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>WRITING INFO TO LOG</h4>
 
-<pre><code>Using System.Diagnostics;
+<div class="highlight highlight-c#"><pre>Using System.Diagnostics;
 
-Debug.WriteLine("Hello, World!");
-</code></pre>
+Debug.WriteLine(<span class="pl-s1"><span class="pl-pds">"</span>Hello, World!<span class="pl-pds">"</span></span>);</pre></div>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Webdrivercsharpnotes maintained by <a href="https://github.com/nobleburgundy">nobleburgundy</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/nobleburgundy">nobleburgundy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
