@@ -1,4 +1,4 @@
-# WebDriverCSharpNotes
+# WebDriver/CSharpNotes
 Ongoing notes on using WebDriver with C# for automation
 
 Notes
