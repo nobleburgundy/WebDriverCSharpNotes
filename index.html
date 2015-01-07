@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Webdrivercsharpnotes by nobleburgundy</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Webdrivercsharpnotes</h1>
+        <h2>Ongoing notes on using WebDriver with C# for automation</h2>
+        <a href="https://github.com/nobleburgundy/WebDriverCSharpNotes" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2>
+<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h2>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION</h3>
+
+<p><strong>Firefox</strong> just works - no need to install anything. <strong>Chrome</strong> requires the installation of the chromedriver.exe (not exact name) into location specified in PATH var. <strong>IE</strong> same thing as chrome with IEdriver.exe file.</p>
+
+<ol>
+<li>Right-click on the solution with your test and choose <strong>Manage NuGet Packages</strong>.</li>
+<li>Type "WebDriver" in the search bar.</li>
+<li>Install the WebDriver and WebDriver Support Classes packages.</li>
+<li>Once the packages are installed, add the following <strong>Using</strong> statements at the beginning of your test file.</li>
+</ol>
+
+<pre><code>using System.Collections.Generic;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+</code></pre>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>EXAMPLES</h3>
+
+<h4>
+<a id="creating-the-driver-object--open-to-url" class="anchor" href="#creating-the-driver-object--open-to-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATING THE DRIVER OBJECT &amp; OPEN TO URL</h4>
+
+<pre><code>string vetURL = "http://nt124181:5503/";
+IWebDriver driver = new FirefoxDriver();
+driver.Url = vetURL;
+</code></pre>
+
+<h4>
+<a id="setting-implicit-wait-timeout-to-wait-for-elements-to-appear" class="anchor" href="#setting-implicit-wait-timeout-to-wait-for-elements-to-appear" aria-hidden="true"><span class="octicon octicon-link"></span></a>SETTING IMPLICIT WAIT (timeout to wait for elements to appear)</h4>
+
+<pre><code>driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
+</code></pre>
+
+<h4>
+<a id="delaysleep" class="anchor" href="#delaysleep" aria-hidden="true"><span class="octicon octicon-link"></span></a>DELAY/SLEEP</h4>
+
+<pre><code>using System.Threading;//required
+
+Thread.Sleep(5000);
+</code></pre>
+
+<h4>
+<a id="login-example" class="anchor" href="#login-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>LOGIN EXAMPLE</h4>
+
+<pre><code>string userName = "pos@mailinator.com"; string password = "Pattnt1*";
+driver.FindElement(By.Id("UserName")).SendKeys(userName);
+driver.FindElement(By.Id("Password")).SendKeys(password);
+driver.FindElement(By.Id("loginSubmit")).Click();
+</code></pre>
+
+<h4>
+<a id="using-assert-to-report-failure" class="anchor" href="#using-assert-to-report-failure" aria-hidden="true"><span class="octicon octicon-link"></span></a>USING ASSERT TO REPORT FAILURE</h4>
+
+<pre><code>if (driver.FindElement(By.Id("addCartItemItemNum")).Displayed != true)
+{
+    Assert.Fail("Unable to verify the Quick Order Portlet exists.");
+}
+</code></pre>
+
+<h4>
+<a id="getting-radio-button-value" class="anchor" href="#getting-radio-button-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>GETTING RADIO BUTTON VALUE</h4>
+
+<pre><code>string radioVal = driver.FindElement(By.ClassName("non")).GetAttribute("value");
+if (radioVal != "GR")
+{
+    Assert.Fail("The radio value not set to 'Ground' as expected. Radio val = " + radioVal);
+}
+</code></pre>
+
+<h4>
+<a id="get-text-field-value" class="anchor" href="#get-text-field-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET TEXT FIELD VALUE</h4>
+
+<pre><code>string specialInstructionsValue = driver.FindElement(By.Id("ShippingNote")).Text;
+if (specialInstructionsFieldValue.Length &gt; 0)
+{
+    Assert.Fail("Special Instructions field populated by default.);
+    driver.FindElement(By.Id("ShippingNote")).Clear();
+}
+</code></pre>
+
+<h4>
+<a id="cycle-through-a-number-of-elements--look-for-text" class="anchor" href="#cycle-through-a-number-of-elements--look-for-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>CYCLE THROUGH A NUMBER OF ELEMENTS &amp; LOOK FOR TEXT</h4>
+
+<pre><code>IReadOnlyCollection&lt;IWebElement&gt; textAreas = driver.FindElements(By.ClassName("contentAreaText"));
+bool noneFound = false;
+foreach(IWebElement textArea in textAreas)
+{
+    string text = textArea.Text;
+    if (text.IndexOf("None") &gt; -1)
+    {
+        noneFound = true;
+        break;
+    }
+}
+if (noneFound != true)
+{
+    Assert.Fail("Unable to verify the Additional Charges is set to 'None'.");
+}
+</code></pre>
+
+<p>Use <strong>IList</strong> to cycle through elements using the index...</p>
+
+<pre><code>IList&lt;IWebElement&gt; reviewLinks = driver.FindElements(By.LinkText("Review"));
+for (i = 1; i &lt; reviewLinks.Count; i++)
+{
+    if (reviewLinks[i].Text;
+}
+</code></pre>
+
+<h4>
+<a id="iterate-through-a-table" class="anchor" href="#iterate-through-a-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>ITERATE THROUGH A TABLE</h4>
+
+<pre><code>IWebElement table = driver.FindElement(By.ID("orderTable"));
+ReadOnlyCollection&lt;IWebElement&gt; allRows = table.FindElements(By.TagName("tr"));
+
+foreach (IWebElement row in allRows)
+{
+    ReadOnlyCollection&lt;IWebElement&gt; cells = row.FindElements(By.TagName("td"));
+
+    foreach (IWebElement cell in cells)
+    {
+        Console.WriteLIne("cell text = " + cell.Text);
+    }
+}
+
+</code></pre>
+
+<h4>
+<a id="select-option-in-drop-down-list" class="anchor" href="#select-option-in-drop-down-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT OPTION IN DROP DOWN LIST</h4>
+
+<pre><code>IWebElement e = driver.FindElement(By.Id("CreditCardModel_CardType"));
+SelectElement select = new SelectElement(e);
+select.SelectByText("Visa");
+</code></pre>
+
+<h4>
+<a id="writing-info-to-log" class="anchor" href="#writing-info-to-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>WRITING INFO TO LOG</h4>
+
+<pre><code>Using System.Diagnostics;
+
+Debug.WriteLine("Hello, World!");
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/nobleburgundy/WebDriverCSharpNotes/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/nobleburgundy/WebDriverCSharpNotes/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/nobleburgundy/WebDriverCSharpNotes"></a> is maintained by <a href="https://github.com/nobleburgundy">nobleburgundy</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
