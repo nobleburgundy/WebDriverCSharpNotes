@@ -101,7 +101,10 @@ Use **IList** to cycle through elements using the index...
 IList<IWebElement> reviewLinks = driver.FindElements(By.LinkText("Review"));
 for (i = 1; i < reviewLinks.Count; i++)
 {
-    if (reviewLinks[i].Text;
+    if (reviewLinks[i].Text.Lenght == 9)
+    {
+    	orderFound = true;
+    }
 }
 ```
 
