@@ -6,7 +6,7 @@ Notes
 
 ###INSTALLATION
 
-**Firefox** just works - no need to install anything. **Chrome** requires the installation of the chromedriver.exe (not exact name) into location specified in PATH var. **IE** same thing as chrome with IEdriver.exe file.
+**Firefox** just works - no need to install anything. **Chrome** requires the installation of the chromedriver.exe (not exact name) into location specified in PATH var. **IE** same thing as chrome with IEdriver.exe file. Use only the 32-bit IE driver.
 
 
 1. Right-click on the solution with your test and choose **Manage NuGet Packages**.
