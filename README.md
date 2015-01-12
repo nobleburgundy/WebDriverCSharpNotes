@@ -72,7 +72,7 @@ if (radioVal != "GR")
 string specialInstructionsValue = driver.FindElement(By.Id("ShippingNote")).Text;
 if (specialInstructionsFieldValue.Length > 0)
 {
-	Assert.Fail("Special Instructions field populated by default.);
+	Assert.Fail("Special Instructions field populated by default.");
 	driver.FindElement(By.Id("ShippingNote")).Clear();
 }
 ```
