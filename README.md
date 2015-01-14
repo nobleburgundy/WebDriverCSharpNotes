@@ -25,7 +25,7 @@ using OpenQA.Selenium.Support.UI;
 ###EXAMPLES
 ####CREATING THE DRIVER OBJECT & OPEN TO URL
 ```c#
-string vetURL = "http://nt124181:5503/";
+string vetURL = "http://ntxxxx:xxxx/";
 IWebDriver driver = new FirefoxDriver();
 driver.Url = vetURL;
 ```
