@@ -122,15 +122,14 @@ foreach (IWebElement row in allRows)
         Console.WriteLIne("cell text = " + cell.Text);
     }
 }
+```
 
 ####FIND AN ELEMENT BY ATTRIBUTE & ATTRIBUTE'S VALUE
+```c#
 // use By.CSSSelector
 // There are numerous ways to grab 1 or more elements via this method
 // http://www.w3schools.com/cssref/css_selectors.asp
 IWebElement e = driver.FindElement(By.CssSelector("[alt=linkedIn]")).Click();
-
-
-
 ```
 
 ####SELECT OPTION IN DROP DOWN LIST
