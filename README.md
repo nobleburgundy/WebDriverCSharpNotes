@@ -44,7 +44,7 @@ Thread.Sleep(5000);
 
 ####LOGIN EXAMPLE
 ```c#
-string userName = "pos@mailinator.com"; string password = "Pattnt1*";
+string userName = "xxxxxx@mailinator.com"; string password = "xxxxxx1*";
 driver.FindElement(By.Id("UserName")).SendKeys(userName);
 driver.FindElement(By.Id("Password")).SendKeys(password);
 driver.FindElement(By.Id("loginSubmit")).Click();
