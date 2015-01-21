@@ -147,9 +147,9 @@ Debug.WriteLine("Hello, World!");
 ```
 
 
-#Syntax Rules
+#SYNTAX, RULES, AND BEST PRACTICES
 
-Variables that reference fields should match the label of the field on the screen.
+####Variables that reference fields should match the label of the field on the screen.
 ```c#
 IWebElement SignInButton = driver.FindElement(By.Id("SignInButton"));
 
@@ -157,3 +157,7 @@ NOT
 
 IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 ```
+####Be verbose with variable names.
+For example, don't shorten "admin" to "adm".
+####Never check in commented out code.
+With version control, there isn't any need to keep in old code that doesn't work for reference.
