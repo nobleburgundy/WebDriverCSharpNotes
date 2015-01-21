@@ -134,8 +134,8 @@ IWebElement e = driver.FindElement(By.CssSelector("[alt=linkedIn]")).Click();
 
 ####SELECT OPTION IN DROP DOWN LIST
 ```c#
-IWebElement e = driver.FindElement(By.Id("CreditCardModel_CardType"));
-SelectElement select = new SelectElement(e);
+IWebElement CCDropDown = driver.FindElement(By.Id("CreditCardModel_CardType"));
+SelectElement select = new SelectElement(CCDropDown);
 select.SelectByText("Visa");
 ```
 
@@ -144,4 +144,16 @@ select.SelectByText("Visa");
 Using System.Diagnostics;
 
 Debug.WriteLine("Hello, World!");
+```
+
+
+#Syntax Rules
+
+Variables that reference fields should match the label of the field on the screen.
+```c#
+IWebElement SignInButton = driver.FindElement(By.Id("SignInButton"));
+
+NOT
+
+IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 ```
