@@ -146,6 +146,12 @@ Using System.Diagnostics;
 Debug.WriteLine("Hello, World!");
 ```
 
+```c#
+Using System.Diagnostics;
+Assert.Inconclusive("I am an inconclusive message");
+```
+Note that this will end the test after the statement. Warning icon will show instead of pass or fail. 
+
 
 #SYNTAX, RULES, AND BEST PRACTICES
 
