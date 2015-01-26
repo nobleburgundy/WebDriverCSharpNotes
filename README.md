@@ -228,6 +228,15 @@ IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 ```
 ####Be verbose with variable names.
 For example, don't shorten "admin" to "adm".
+####Do not abbreviate fields or parameters. Spell them out to remove ambiguity.
+####Use inner parenthesis in expressions.
+Most of the time it doesn’t make any difference at all to the compiled code. It is however easier to read when a piece of code has something like:
+```c#
+if((x==Y) && ((y != 10)||(y < 299)) && (DateTime.Now.Year > 2013))
+{
+	...
+}
+```
 ####Never check in commented out code.
 With version control, there isn't any need to keep in old code that doesn't work for reference.
 ####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
