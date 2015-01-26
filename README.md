@@ -230,3 +230,11 @@ IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 For example, don't shorten "admin" to "adm".
 ####Never check in commented out code.
 With version control, there isn't any need to keep in old code that doesn't work for reference.
+####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
++ Variables - lowerCamelCase. Example: itemNumber
++ Fields - UpperCamelCase. Example: SpecialInstructionsField
++ Objects - UpperCamelCase. Example: ItemTable
++ Method Names - UpperCamelCase. Example: GetTableValues()
++ Class Names - UpperCamelCase. Example: Test
++ Test Method Names - UpperCamelCase and should match actual test name. Example: SmokeTest_OrderWithCreditCard()
++ Test Class Name - UpperCamelCase and should match the test folder. SmokeTests
