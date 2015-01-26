@@ -152,6 +152,69 @@ Assert.Inconclusive("I am an inconclusive message");
 ```
 Note that this will end the test after the statement. Warning icon will show instead of pass or fail. 
 
+####WORKING WITH EXCEL
+The following example grabs all the rows from all the sheets of a workbook and puts the data into a dictionary.
+```c#
+public void Create301RedirectsFromSpreadsheet()
+{
+    Debug.WriteLine("Starting 'Create301Redirects...' method");
+
+    string excelFileName = "Copy of PBI-3212-PDCOM_KWredirects-5-Dec-2014-Cason.xlsx";
+    string excelFilePath = "\\\\nt124072\\SharedServices\\Testing\\Automation\\" + excelFileName;
+
+    if (File.Exists(excelFilePath)){
+        Debug.WriteLine("The file EXISTS at " + excelFilePath);
+    }
+    else
+    {
+        Assert.Fail("The file does not exist at path '" + excelFilePath + "'. Terminating.");
+    }
+
+    Excel.Application xlApp;
+    Excel.Workbook xlWorkbook;
+    Excel.Worksheet xlWorksheet;
+    Excel.Range range;
+
+    int rowCount = 0;
+    int colCount = 0;
+    string str;
+    StringBuilder rowString = new StringBuilder();
+
+    xlApp = new Excel.Application();
+    xlWorkbook = xlApp.Workbooks.Open(excelFilePath);
+    xlWorksheet = xlWorkbook.Worksheets.get_Item(1);
+
+    //create dictionary with all values from all sheets
+    Dictionary<string, string> allRowsDictionary = new Dictionary<string, string>();
+
+    for (int i = 1; i < xlWorkbook.Worksheets.Count; i++ )
+    {
+        xlWorksheet = xlWorkbook.Worksheets.get_Item(i);
+        range = xlWorksheet.UsedRange;
+
+        //key = cell name (ie row name col name)
+        for (rowCount = 1; rowCount <= range.Rows.Count; rowCount++)
+        {
+            for (colCount = 1; colCount <= range.Columns.Count; colCount++)
+            {
+                str = (string)(range.Cells[rowCount, colCount] as Excel.Range).Value2;
+                rowString.Append("#" + str);
+            }
+            allRowsDictionary.Add("sheet " + i + ":row " + rowCount, rowString.ToString());
+            rowString.Clear();
+        }
+    }
+
+    xlWorkbook.Close(true, null, null);
+    xlApp.Quit();
+
+    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorksheet);
+    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkbook);
+    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+}
+```
+
+
 
 #SYNTAX, RULES, AND BEST PRACTICES
 
