@@ -159,8 +159,8 @@ public void Create301RedirectsFromSpreadsheet()
 {
     Debug.WriteLine("Starting 'Create301Redirects...' method");
 
-    string excelFileName = "Copy of PBI-3212-PDCOM_KWredirects-5-Dec-2014-Cason.xlsx";
-    string excelFilePath = "\\\\nt124072\\SharedServices\\Testing\\Automation\\" + excelFileName;
+    string excelFileName = "Copy of PBI-3212-PDCOM_KWredirects-5-Dec-2014.xlsx";
+    string excelFilePath = "\\\\ntxxxxxx\\SharedServices\\Testing\\Automation\\" + excelFileName;
 
     if (File.Exists(excelFilePath)){
         Debug.WriteLine("The file EXISTS at " + excelFilePath);
@@ -218,7 +218,7 @@ public void Create301RedirectsFromSpreadsheet()
 
 #SYNTAX, RULES, AND BEST PRACTICES
 
-####Variables that reference fields should match the label of the field on the screen.
+#####Variables that reference fields should match the label of the field on the screen.
 ```c#
 IWebElement SignInButton = driver.FindElement(By.Id("SignInButton"));
 
@@ -226,10 +226,10 @@ NOT
 
 IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 ```
-####Be verbose with variable names.
+#####Be verbose with variable names.
 For example, don't shorten "admin" to "adm".
-####Do not abbreviate fields or parameters. Spell them out to remove ambiguity.
-####Use inner parenthesis in expressions.
+#####Do not abbreviate fields or parameters. Spell them out to remove ambiguity.
+#####Use inner parenthesis in expressions.
 Most of the time it doesn’t make any difference at all to the compiled code. It is however easier to read when a piece of code has something like:
 ```c#
 if((x==Y) && ((y != 10)||(y < 299)) && (DateTime.Now.Year > 2013))
@@ -237,9 +237,9 @@ if((x==Y) && ((y != 10)||(y < 299)) && (DateTime.Now.Year > 2013))
 	...
 }
 ```
-####Never check in commented out code.
+#####Never check in commented out code.
 With version control, there isn't any need to keep in old code that doesn't work for reference.
-####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
+#####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
 + Variables - lowerCamelCase. Example: itemNumber
 + Fields - UpperCamelCase. Example: SpecialInstructionsField
 + Objects - UpperCamelCase. Example: ItemTable
