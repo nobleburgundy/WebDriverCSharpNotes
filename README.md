@@ -1,10 +1,7 @@
-# WebDriver/CSharpNotes
-Ongoing notes on using WebDriver with C# for automation
+#WEBDRIVER/C# TEST AUTOMATION NOTES
+####Ongoing notes on using WebDriver with C# for automation
 
-Notes
------
-
-###INSTALLATION
+##INSTALLATION
 
 **Firefox** just works - no need to install anything. **Chrome** requires the installation of the chromedriver.exe (not exact name) into location specified in PATH var. **IE** same thing as chrome with IEdriver.exe file. Use only the 32-bit IE driver.
 
@@ -22,27 +19,27 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 ```
 
-###EXAMPLES
-####CREATING THE DRIVER OBJECT & OPEN TO URL
+##AUTOMATION CODE EXAMPLES
+#####CREATING THE DRIVER OBJECT & OPEN TO URL
 ```c#
 string vetURL = "http://ntxxxx:xxxx/";
 IWebDriver driver = new FirefoxDriver();
 driver.Url = vetURL;
 ```
 	
-####SETTING IMPLICIT WAIT (timeout to wait for elements to appear)
+#####SETTING IMPLICIT WAIT (timeout to wait for elements to appear)
 ```c#
 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
 ```
 
-####DELAY/SLEEP
+#####DELAY/SLEEP
 ```c#
 using System.Threading;//required
 
 Thread.Sleep(5000);
 ```
 
-####LOGIN EXAMPLE
+#####LOGIN EXAMPLE
 ```c#
 string userName = "xxxxxx@mailinator.com"; string password = "xxxxxx1*";
 driver.FindElement(By.Id("UserName")).SendKeys(userName);
@@ -50,7 +47,7 @@ driver.FindElement(By.Id("Password")).SendKeys(password);
 driver.FindElement(By.Id("loginSubmit")).Click();
 ```
 	
-####USING ASSERT TO REPORT FAILURE
+#####USING ASSERT TO REPORT FAILURE
 ```c#
 if (driver.FindElement(By.Id("addCartItemItemNum")).Displayed != true)
 {
@@ -58,7 +55,7 @@ if (driver.FindElement(By.Id("addCartItemItemNum")).Displayed != true)
 }
 ```
 	
-####GETTING RADIO BUTTON VALUE
+#####GETTING RADIO BUTTON VALUE
 ```c#
 string radioVal = driver.FindElement(By.ClassName("non")).GetAttribute("value");
 if (radioVal != "GR")
@@ -67,7 +64,7 @@ if (radioVal != "GR")
 }
 ```
 	
-####GET TEXT FIELD VALUE
+#####GET TEXT FIELD VALUE
 ```c#
 string specialInstructionsValue = driver.FindElement(By.Id("ShippingNote")).Text;
 if (specialInstructionsFieldValue.Length > 0)
@@ -77,7 +74,7 @@ if (specialInstructionsFieldValue.Length > 0)
 }
 ```
 	
-####CYCLE THROUGH A NUMBER OF ELEMENTS & LOOK FOR TEXT
+#####CYCLE THROUGH A NUMBER OF ELEMENTS & LOOK FOR TEXT
 ```c#
 IReadOnlyCollection<IWebElement> textAreas = driver.FindElements(By.ClassName("contentAreaText"));
 bool noneFound = false;
@@ -108,7 +105,7 @@ for (i = 1; i < reviewLinks.Count; i++)
 }
 ```
 
-####ITERATE THROUGH A TABLE
+#####ITERATE THROUGH A TABLE
 ```c#
 IWebElement table = driver.FindElement(By.ID("orderTable"));
 ReadOnlyCollection<IWebElement> allRows = table.FindElements(By.TagName("tr"));
@@ -124,7 +121,7 @@ foreach (IWebElement row in allRows)
 }
 ```
 
-####FIND AN ELEMENT BY ATTRIBUTE & ATTRIBUTE'S VALUE
+#####FIND AN ELEMENT BY ATTRIBUTE & ATTRIBUTE'S VALUE
 ```c#
 // use By.CSSSelector
 // There are numerous ways to grab 1 or more elements via this method
@@ -132,14 +129,14 @@ foreach (IWebElement row in allRows)
 IWebElement e = driver.FindElement(By.CssSelector("[alt=linkedIn]")).Click();
 ```
 
-####SELECT OPTION IN DROP DOWN LIST
+#####SELECT OPTION IN DROP DOWN LIST
 ```c#
 IWebElement CCDropDown = driver.FindElement(By.Id("CreditCardModel_CardType"));
 SelectElement select = new SelectElement(CCDropDown);
 select.SelectByText("Visa");
 ```
 
-####WRITING INFO TO LOG
+#####WRITING INFO TO LOG
 ```c#
 Using System.Diagnostics;
 
@@ -152,7 +149,7 @@ Assert.Inconclusive("I am an inconclusive message");
 ```
 Note that this will end the test after the statement. Warning icon will show instead of pass or fail. 
 
-####WORKING WITH EXCEL
+#####WORKING WITH EXCEL
 The following example grabs all the rows from all the sheets of a workbook and puts the data into a dictionary.
 ```c#
 public void Create301RedirectsFromSpreadsheet()
@@ -214,9 +211,18 @@ public void Create301RedirectsFromSpreadsheet()
 }
 ```
 
+##PROJECT STRUCTURE
 
++ Solution - Dental, Veterinary, PMI, Medical, etc...
+	+ Project - Smoke Tests, Regression
+		+ Test Class File - on class file per folder???
+			+ Test Methods
+				+ Test1() - should match Test Case name
+				+ Test2()
+				
+	
 
-#SYNTAX, RULES, AND BEST PRACTICES
+##SYNTAX, RULES, AND BEST PRACTICES
 
 #####Variables that reference fields should match the label of the field on the screen.
 ```c#
@@ -239,11 +245,25 @@ if((x==Y) && ((y != 10)||(y < 299)) && (DateTime.Now.Year > 2013))
 ```
 #####Never check in commented out code.
 With version control, there isn't any need to keep in old code that doesn't work for reference.
+
 #####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
 + Variables - lowerCamelCase. Example: itemNumber
 + Fields - UpperCamelCase. Example: SpecialInstructionsField
 + Objects - UpperCamelCase. Example: ItemTable
 + Method Names - UpperCamelCase. Example: GetTableValues()
 + Class Names - UpperCamelCase. Example: Test
-+ Test Method Names - UpperCamelCase and should match actual test name. Example: SmokeTest_OrderWithCreditCard()
-+ Test Class Name - UpperCamelCase and should match the test folder. SmokeTests
++ Test Method Names - UpperCamelCase and should match actual test name. Example: ???
++ Test Class Name - UpperCamelCase and should match the test folder.
+
+#####If you're doing a LOT of string concantenating, use StringBuilder instead of string concatenation...
+```c#
+//StringBuilder is part of System.Text
+using System.Text;
+
+StringBuilder concatenatedString = new StringBuilder();
+foreach (string rowName in giantList)
+{
+	allText = allText.Append(rowName);
+}
+allText.Replace(" ", ",");
+```
