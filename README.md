@@ -244,6 +244,52 @@ public void Create301RedirectsFromSpreadsheet()
 				+ Test2()
 				
 	
+	
+###CREATING LIBRARIES
+
+You will want to create function libraries that share the "driver" object(which is just IWebDriver) so all WebDriver commands go to the same driver. This can be done by setting your library's "driver" to your test class' [TestInitialize] section, which will always run. So here's a quick template:
+
+
+```c#
+    [TestClass]
+    public class Regression_Ordering
+    {
+        IWebDriver driver = new InternetExplorerDriver(internetExplorerDriverServerDirectory: "C:\\");   // prototype
+
+	[TestInitialize]
+	public void MyTestInit()
+	{
+	    Debug.WriteLine(" ** [TestInitialize] MyTestInit Invoked ** ");
+	    Utils.Gen2.driver = driver;  // send this to general lib
+	}
+```        
+
+Now here's what the libary class(Gen2) looks like:
+
+```c#
+    public static class Gen2
+    {
+        public static IWebDriver driver = null; // set in your test class
+        
+        public static void QuickMethodTest()
+        {
+            Debug.WriteLine("this is quickmethodtest");
+            driver.FindElement(By.Id("myelement")).Click();
+        }        
+
+```  
+
+So using a library function int your test would look like this:
+
+
+```c#
+        [TestMethod]
+        public void TestPrototype()
+        {
+            Utils.Gen2.QuickMethodTest();
+        }
+
+```  	
 
 ##SYNTAX, RULES, AND BEST PRACTICES
 
