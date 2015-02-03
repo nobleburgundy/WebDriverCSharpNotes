@@ -136,12 +136,35 @@ SelectElement select = new SelectElement(CCDropDown);
 select.SelectByText("Visa");
 ```
 
+
+
+#####RIGHT CLICK ON ELEMENT
+```c#
+using OpenQA.Selenium.Interactions;
+
+
+IWebDriver driver = new InternetExplorerDriver(internetExplorerDriverServerDirectory: "C:\\");
+driver.Navigate().GoToUrl("http://google.com");
+IWebElement gsearch = driver.FindElement(By.Id("gbqfq"));
+Actions builder = new Actions(driver);
+OpenQA.Selenium.Interactions.IAction rightClick = builder.ContextClick(gsearch).Build();
+rightClick.Perform();
+```
+
+
+
+
 #####WRITING INFO TO LOG
 ```c#
 Using System.Diagnostics;
 
 Debug.WriteLine("Hello, World!");
 ```
+
+
+#####TRACING FAILURES
+On the stack trace of a run(in the bottom sub-panel of the Test Explorer panel) you will see numerous trace statements. You only want to pay attention to the bottom-most trace line. Hovering over it with your mouse will show you the line the error occured on(like when it can't find the element). Clicking on the bottom-most line will take you to the line where the test failed. You do not need to run in debug mode for this. 
+
 
 ```c#
 Using System.Diagnostics;
