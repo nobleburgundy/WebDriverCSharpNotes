@@ -291,6 +291,37 @@ So using a library function int your test would look like this:
 
 ```  	
 
+
+## USING SHARED PARAMETERS
+
+First, you need to incorporate TestContext which is easy. This is done at the class declaration at each .cs file. Just put it after the public IWebDriver declaration
+```c#
+        private TestContext testContextInstance;
+        public TestContext TestContext
+        {
+            get { return testContextInstance; }
+            set { testContextInstance = value; }
+        }
+```
+
+Then we do the header, and the rest of the code. For "2581", replace it with a test case that uses a shared parameter table, otherwise it says it's empty. If there's 20 rows in the shared parameter table, 20 tests will be run(one for each data row)
+
+```c#
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.TestCase", "http://our.server/tfs;CoreProject", "2581", DataAccessMethod.Sequential)]  // works!
+
+        [TestMethod]
+        public void ConnectTFS()
+        {
+            TestContext tc = TestContext;
+            string column1 = TestContext.DataRow[0].ToString(); // read parameter by column index
+            //string column2 = TestContext.DataRow["MyVal"].ToString(); //read parameter by column name
+
+            Debug.WriteLine(column1.ToString());
+        }
+
+```
+
+
 ##SYNTAX, RULES, AND BEST PRACTICES
 
 #####Variables that reference fields should match the label of the field on the screen.
