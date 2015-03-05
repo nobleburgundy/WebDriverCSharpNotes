@@ -237,23 +237,22 @@ public void Create301RedirectsFromSpreadsheet()
 We will be using the Page Object Model (POM) to organize the automation code and tests.  The objective is to separate the details of the site implementation from the actual test. 
 
 #####Important points
-+ The public methods represent the services that the page offers.
-+ Try not to expose the internals of the page.
-+ Tests, not the PageObjects, should be responsible for making assertions about the state of a page.
-+ Methods return other PageObjects.
-	+ return "this" if no navigation takes page.
-	+ return the new page object if navigation to other page. 
-		+ Example, if you're Sign In page takes you to the Home page after login...
-		```c#
-		public login(string username, string password)
-		{
-			driver.findElement(By.Id("username")).SendKeys(username);
-			driver.findElement(By.Id("password")).SendKeys(username);
-			driver.findElement(By.Id("loginButton")).Click();
-			
-			return new HomePage(driver);
-		}
-		```
+
++ The public methods represent the services that the page offers
++ Try not to expose the internals of the page
++ Tests, not the PageObjects, should be responsible for making assertions about the state of a page
++ Return "this" if no navigation takes page, return the new page object if navigation to other page.
+	+ Example, if you're Sign In page takes you to the Home page after login...
+	```c#
+	public login(string username, string password)
+	{
+		driver.findElement(By.Id("username")).SendKeys(username);
+		driver.findElement(By.Id("password")).SendKeys(username);
+		driver.findElement(By.Id("loginButton")).Click();
+		
+		return new HomePage(driver);
+	}
+	```
 
 
 ###PROJECT STRUCTURE
