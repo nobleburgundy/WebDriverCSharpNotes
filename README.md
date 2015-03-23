@@ -175,62 +175,138 @@ Note that this will end the test after the statement. Warning icon will show ins
 #####WORKING WITH EXCEL
 The following example grabs all the rows from all the sheets of a workbook and puts the data into a dictionary.
 ```c#
-public void Create301RedirectsFromSpreadsheet()
+using System;
+using System.IO;
+using System.Diagnostics;
+using System.Threading;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using Excel = Microsoft.Office.Interop.Excel;
+
+namespace SmokeTests.New_Functionality
 {
-    Debug.WriteLine("Starting 'Create301Redirects...' method");
-
-    string excelFileName = "Copy of PBI-3212-PDCOM_KWredirects-5-Dec-2014.xlsx";
-    string excelFilePath = "\\\\ntxxxxxx\\SharedServices\\Testing\\Automation\\" + excelFileName;
-
-    if (File.Exists(excelFilePath)){
-        Debug.WriteLine("The file EXISTS at " + excelFilePath);
-    }
-    else
+    [TestClass]
+    public class Create_301_Redirects_from_Spreadsheet_from_BU
     {
-        Assert.Fail("The file does not exist at path '" + excelFilePath + "'. Terminating.");
-    }
+        IWebDriver driver = new InternetExplorerDriver();
 
-    Excel.Application xlApp;
-    Excel.Workbook xlWorkbook;
-    Excel.Worksheet xlWorksheet;
-    Excel.Range range;
-
-    int rowCount = 0;
-    int colCount = 0;
-    string str;
-    StringBuilder rowString = new StringBuilder();
-
-    xlApp = new Excel.Application();
-    xlWorkbook = xlApp.Workbooks.Open(excelFilePath);
-    xlWorksheet = xlWorkbook.Worksheets.get_Item(1);
-
-    //create dictionary with all values from all sheets
-    Dictionary<string, string> allRowsDictionary = new Dictionary<string, string>();
-
-    for (int i = 1; i < xlWorkbook.Worksheets.Count; i++ )
-    {
-        xlWorksheet = xlWorkbook.Worksheets.get_Item(i);
-        range = xlWorksheet.UsedRange;
-
-        //key = cell name (ie row name col name)
-        for (rowCount = 1; rowCount <= range.Rows.Count; rowCount++)
+        [TestMethod]
+        public void Create301RedirectsFromSpreadsheet()
         {
-            for (colCount = 1; colCount <= range.Columns.Count; colCount++)
-            {
-                str = (string)(range.Cells[rowCount, colCount] as Excel.Range).Value2;
-                rowString.Append("#" + str);
+            Debug.WriteLine("Starting 'Create301Redirects...' method");
+
+            string excelFileName = "Copy of PBI-3212-PDCOM_KWredirects-5-Dec-2014-Cason.xlsx";
+            string excelFilePath = "\\\\nt124072\\SharedServices\\Testing\\Automation\\" + excelFileName;
+
+            if (File.Exists(excelFilePath)){
+                Debug.WriteLine("The file EXISTS at " + excelFilePath);
             }
-            allRowsDictionary.Add("sheet " + i + ":row " + rowCount, rowString.ToString());
-            rowString.Clear();
-        }
+            else
+            {
+                Assert.Fail("The file does not exist at path '" + excelFilePath + "'. Terminating.");
+            }
+
+            Excel.Application xlApp;
+            Excel.Workbook xlWorkbook;
+            Excel.Worksheet xlWorksheet;
+            Excel.Range range;
+
+            int rowCount = 0;
+            int colCount = 0;
+            string str;
+            StringBuilder rowString = new StringBuilder();
+
+            xlApp = new Excel.Application();
+            xlWorkbook = xlApp.Workbooks.Open(excelFilePath);
+            xlWorksheet = xlWorkbook.Worksheets.get_Item(1);
+
+            //create dictionary with all values from all sheets
+            Dictionary<string, string> allRowsDictionary = new Dictionary<string, string>();
+
+            for (int i = 1; i < xlWorkbook.Worksheets.Count; i++ )
+            {
+                xlWorksheet = xlWorkbook.Worksheets.get_Item(i);
+                range = xlWorksheet.UsedRange;
+
+                //key = cell name (ie row name col name)
+                for (rowCount = 1; rowCount <= range.Rows.Count; rowCount++)
+                {
+                    for (colCount = 1; colCount <= range.Columns.Count; colCount++)
+                    {
+                        str = (string)(range.Cells[rowCount, colCount] as Excel.Range).Value2;
+                        rowString.Append("#" + str);
+                    }
+                    allRowsDictionary.Add("sheet " + i + ":row " + rowCount, rowString.ToString());
+                    rowString.Clear();
+                }
+            }
+
+            xlWorkbook.Close(true, null, null);
+            xlApp.Quit();
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorksheet);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkbook);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+
+            string row = "";
+            string searchTerm = "";
+            string url = "http://nt124181.pdental.com:5108/";
+            //string rowValues[];
+
+            foreach (KeyValuePair<string, string> entry in allRowsDictionary)
+            {
+                row = entry.Value;
+                //don't include the header row
+                if (row.IndexOf("Keyword Redirect") == -1)
+                {
+                    string[] rowValues = row.Split('#');
+                    searchTerm = rowValues[2];
+                    //only perform the search if there is > 0 search terms
+                    if (searchTerm.Length > 1)
+                    {
+                        //see if there are multiple search terms
+                        string[] searchTerms = searchTerm.Split(';');
+                        string expectedURL = rowValues[rowValues.GetUpperBound(0)];
+                        //to avoid enviroment changes, just verify the last 10 characters are in the actual URL
+                        string expectedURLSubString = expectedURL.Substring(expectedURL.Length - 10);
+
+                        //| Step 1 | Navigate to the Patterson Dental homepage.QA:  http://nt124181.pdental.com:5108/       | User is navigated to the Patterson Dental homepage. 
+                        driver.Url = url;
+
+                        foreach (string s in searchTerms)
+                        {
+                            //| Step 2 | Select a search term from column B.                                                    | Selected.                                           
+                            //handled in next step
+
+                            //| Step 3| Enter the value into the search bar near the top right, and click Search.              | User is navigated to the search results page.       
+                            driver.FindElement(By.Name("q")).SendKeys(s);
+                            driver.FindElement(By.Id("searchSubmit")).Click();
+                            Thread.Sleep(1000);
+
+                            //| Step 4 | Verify that the URL matches the one in column C corresponding to the search term in B. | URL matches.                                        
+                            string pageURL = driver.Url;
+                            if (pageURL.IndexOf(expectedURLSubString) > -1)
+                            {
+                                Debug.WriteLine("STEP PASS - pageURLSubString == expectedURLSubString");
+                            }
+                            else
+                            {
+                                Debug.WriteLine("FAIL - unable to verify the expected url string '" + expectedURLSubString + "' NOT found in the pageURL(" + pageURL + ").");
+                            }
+                        }
+                    }
+                }
+            }
+            //TEST END
+            driver.Close();
+        }     
     }
-
-    xlWorkbook.Close(true, null, null);
-    xlApp.Quit();
-
-    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorksheet);
-    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkbook);
-    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
 }
 ```
 ###PAGE OBJECT MODEL
