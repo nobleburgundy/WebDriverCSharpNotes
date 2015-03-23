@@ -233,7 +233,7 @@ public void Create301RedirectsFromSpreadsheet()
     System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
 }
 ```
-###Page Object Model
+###PAGE OBJECT MODEL
 We will be using the Page Object Model (POM) to organize the automation code and tests.  The objective is to separate the details of the site implementation from the actual test. 
 
 #####Important points
@@ -242,18 +242,24 @@ We will be using the Page Object Model (POM) to organize the automation code and
 + Try not to expose the internals of the page
 + Tests, not the PageObjects, should be responsible for making assertions about the state of a page
 + Return "this" if no navigation takes page, return the new page object if navigation to other page.
-	+ Example, if you're Sign In page takes you to the Home page after login...
-	```c#
-	public login(string username, string password)
-	{
-		driver.findElement(By.Id("username")).SendKeys(username);
-		driver.findElement(By.Id("password")).SendKeys(username);
-		driver.findElement(By.Id("loginButton")).Click();
-		
-		return new HomePage(driver);
-	}
-	```
+```c#
+public HomePage setPasswordField(string password)
+{
+	driver.FindElement(PasswordField).SendKeys(password);
+	return this;
+}
+```
 
++ If navigating to a new page, return a new object of the navigated to page...
+```c#
+public HomePage login(string userName, string password)
+{
+	setUserNameField(userName);
+	setPasswordField(password);
+	clickLoginButton();
+	return new HomePage(driver);
+}
+```
 
 ###PROJECT STRUCTURE
 
