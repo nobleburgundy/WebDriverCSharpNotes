@@ -136,8 +136,6 @@ SelectElement select = new SelectElement(CCDropDown);
 select.SelectByText("Visa");
 ```
 
-
-
 #####RIGHT CLICK ON ELEMENT
 ```c#
 using OpenQA.Selenium.Interactions;
@@ -151,8 +149,29 @@ OpenQA.Selenium.Interactions.IAction rightClick = builder.ContextClick(gsearch).
 rightClick.Perform();
 ```
 
-
-
+#####XPATH
+Using XPATH is a powerful and easy way to find elements...
+```c#
+HTML button without ID or text
+<button class="big class blue">
+	<span>Ok</span>
+</button>
+//You can easily find this element by...
+driver.FindElement(By.XPath("//span[text()='Ok']")).Click();
+```
+Action											| XPath
+------------- 										| -------------
+Find all elements with tag input							| //input
+Find all input tag element having attribute type = ‘hidden’				| //input[@type='hidden']
+Find all input tag element having attribute type = ‘hidden’ and name attribute = ‘ren’	| //input[@type='hidden'][@name='ren']
+Find all input tag element with attribute type containing ‘hid’				| //input[contains(@type,'hid')]
+Find all input tag element with attribute type starting with ‘hid’			| //input[starts-with(@type,'hid')]
+Find all elements having innertext = ‘password’						| //*[text()='Password']
+Find all td elements having innertext = ‘password’					| //td[text()='Password']
+Find all next siblings of td tag having innertext = ‘gender’				| //td[text()='Gender']//following-sibling::*
+Find all elements in the 2nd next sibling of td tag having innertext = ‘gender’		| //td[text()='Gender']//following-sibling::*[2]//*	
+Find input elements in the 2nd next sibling of td tag having innertext = ‘gender’	| //td[text()='Gender']//following-sibling::*[2]//input
+Find the td which contains font element containing the text ‘12’			| //td[font[contains(text(),'12')]]
 
 #####WRITING INFO TO LOG
 ```c#
