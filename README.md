@@ -489,3 +489,18 @@ foreach (string rowName in giantList)
 }
 allText.Replace(" ", ",");
 ```
+
+#####Use .Contains() instead of .IndexOf when determining if text exists in a certain context. .IndexOf should be used when getting the index of text within a text, but not to just determine if it exists.
+```c#
+if (divText.Contains(expectedText)
+{
+	test.recordStep("Step Passed");
+}
+else
+{
+	test.failTest("Expected text '" + expectedText + "' does not exist.");
+}
+//IndexOf example
+int textPosition = divText.IndexOf("ending in");
+```
+
