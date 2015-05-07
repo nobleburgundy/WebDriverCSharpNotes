@@ -1,0 +1,28 @@
+Edit your app.config file(at the project level) to look like this. 
+You can add as many keys as you want.
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="testEnvironment" value="QA" />
+    <add key="timeoutSeconds" value="80" />
+    <add key="serverdir" value="C:\\"/> 
+    <add key="qa_consumer_url" value="http://server1/" />
+    <add key="qa_sql" value="sqlserver1" />
+    <add key="uat_consumer_url" value="http://server2" />
+    <add key="uat_sql" value="sqlserver2" />
+  </appSettings>  
+</configuration>
+
+
+Required statements
+
+using System.Configuration;
+
+
+How to read config data
+
+Just make a string variable, and read in the value as such
+string myenv = ConfigurationManager.AppSettings["TestEnvironment"];
+
