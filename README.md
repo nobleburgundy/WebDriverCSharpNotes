@@ -506,7 +506,7 @@ int textPosition = divText.IndexOf("ending in");
 
 ##HELPFUL SQL QUERIES
 ###VET
-#####Get active customer with balance
+######Get active customer with balance
 ```sql
 SELECT TOP(1) U.UserName FROM custrep.dbo.CUSTOMER C
 INNER JOIN custrep.dbo.APPLICATION_BRANCH A
