@@ -506,7 +506,7 @@ int textPosition = divText.IndexOf("ending in");
 
 ##HELPFUL SQL QUERIES
 ###VET
-######Get active customer with balance
+Get active customer with balance
 ```sql
 SELECT TOP(1) U.UserName FROM custrep.dbo.CUSTOMER C
 INNER JOIN custrep.dbo.APPLICATION_BRANCH A
@@ -520,7 +520,7 @@ ON P.UserId = U.UserId
 WHERE C.amount_past_due > 1
 AND C.customer_status_code = 'A'
 ```
-######Get postal code of specific customer
+Get postal code of specific customer
 ```sql
 SELECT TOP(1) AD.postal_code FROM custrep.dbo.CUSTOMER C
 INNER JOIN custrep.dbo.APPLICATION_BRANCH A
