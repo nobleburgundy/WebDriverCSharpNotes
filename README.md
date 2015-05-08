@@ -504,3 +504,32 @@ else
 int textPosition = divText.IndexOf("ending in");
 ```
 
+##HELPFUL SQL QUERIES
+###VET
+#####Get active customer with balance
+```sql
+SELECT TOP(1) U.UserName FROM custrep.dbo.CUSTOMER C
+INNER JOIN custrep.dbo.APPLICATION_BRANCH A
+ON C.branch_number = A.branch_number
+INNER JOIN custrep.dbo.ADDRESS AD
+ON C.customer_id = AD.customer_id
+INNER JOIN pvweb.dbo.Profile P
+ON C.persistent_customer_number = P.CustomerNumber
+INNER JOIN pvweb.dbo.[User] U
+ON P.UserId = U.UserId
+WHERE C.amount_past_due > 1
+AND C.customer_status_code = 'A'
+```
+######Get postal code of specific customer
+```sql
+SELECT TOP(1) AD.postal_code FROM custrep.dbo.CUSTOMER C
+INNER JOIN custrep.dbo.APPLICATION_BRANCH A
+ON C.branch_number = A.branch_number
+INNER JOIN custrep.dbo.ADDRESS AD
+ON C.customer_id = AD.customer_id
+INNER JOIN pvweb.dbo.Profile P
+ON C.persistent_customer_number = P.CustomerNumber
+INNER JOIN pvweb.dbo.[User] U
+ON P.UserId = U.UserId
+WHERE P.CustomerNumber = '100146075'
+```
