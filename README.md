@@ -520,9 +520,11 @@ ON P.UserId = U.UserId
 WHERE C.amount_past_due > 1
 AND C.customer_status_code = 'A'
 ```
-Get postal code of specific customer
+Get postal code of specific customer and use of variables
 ```sql
-SELECT TOP(1) AD.postal_code FROM custrep.dbo.CUSTOMER C
+DECLARE @CustomerNumber nvarchar(9);
+SET @CustomerNumber = '100146075';
+SELECT DISTINCT TOP(1) AD.postal_code FROM custrep.dbo.CUSTOMER C
 INNER JOIN custrep.dbo.APPLICATION_BRANCH A
 ON C.branch_number = A.branch_number
 INNER JOIN custrep.dbo.ADDRESS AD
@@ -531,5 +533,5 @@ INNER JOIN pvweb.dbo.Profile P
 ON C.persistent_customer_number = P.CustomerNumber
 INNER JOIN pvweb.dbo.[User] U
 ON P.UserId = U.UserId
-WHERE P.CustomerNumber = '100146075'
+WHERE P.CustomerNumber = @CustomerNumber
 ```
