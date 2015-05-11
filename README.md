@@ -507,7 +507,7 @@ int textPosition = divText.IndexOf("ending in");
 Edit your app.config file(at the project level) to look like this. 
 You can add as many keys as you want.
 
-
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <appSettings>
@@ -520,6 +520,7 @@ You can add as many keys as you want.
     <add key="uat_sql" value="sqlserver2" />
   </appSettings>  
 </configuration>
+```
 
 ######Required statements
 ````c#
