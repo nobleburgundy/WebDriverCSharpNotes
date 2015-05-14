@@ -564,3 +564,10 @@ INNER JOIN pvweb.dbo.[User] U
 ON P.UserId = U.UserId
 WHERE P.CustomerNumber = @CustomerNumber
 ```
+Get valid item number (verified to work with both VET and MED, havent verified DENTAL)
+```sql
+SELECT TOP(1) I.public_item_number FROM ir25.dbo.ITEM I
+WHERE I.visibility = '500'
+AND I.is_sellable = 'Y'
+AND I.discontinued_status <> 'D'
+```
