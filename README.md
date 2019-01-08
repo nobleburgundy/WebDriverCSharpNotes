@@ -1,7 +1,7 @@
-#WEBDRIVER/C# TEST AUTOMATION NOTES
-####Ongoing notes on using WebDriver with C# for automation
+# WEBDRIVER/C# TEST AUTOMATION NOTES
+#### HOngoing notes on using WebDriver with C# Hfor automation
 
-##INSTALLATION
+## INSTALLATION
 
 **Firefox** just works - no need to install anything. **Chrome** requires the installation of the chromedriver.exe (not exact name) into location specified in PATH var. **IE** same thing as chrome with IEdriver.exe file. Use only the 32-bit IE driver.
 
@@ -10,7 +10,7 @@
 2. Type "WebDriver" in the search bar.
 3. Install the WebDriver and WebDriver Support Classes packages.
 4. Once the packages are installed, add the following **Using** statements at the beginning of your test file.
-```c#
+```csharp
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -19,44 +19,44 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 ```
 
-##AUTOMATION CODE EXAMPLES
-#####CREATING THE DRIVER OBJECT & OPEN TO URL
-```c#
+## AUTOMATION CODE EXAMPLES
+##### CREATING THE DRIVER OBJECT & OPEN TO URL
+```csharp
 string vetURL = "http://ntxxxx:xxxx/";
 IWebDriver driver = new FirefoxDriver();
 driver.Url = vetURL;
 ```
 	
-#####SETTING IMPLICIT WAIT (timeout to wait for elements to appear)
-```c#
+##### SETTING IMPLICIT WAIT (timeout to wait for elements to appear)
+```csharp
 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
 ```
 
-#####DELAY/SLEEP
-```c#
+##### DELAY/SLEEP
+```csharp
 using System.Threading;//required
 
 Thread.Sleep(5000);
 ```
 
-#####LOGIN EXAMPLE
-```c#
+##### LOGIN EXAMPLE
+```csharp
 string userName = "xxxxxx@mailinator.com"; string password = "xxxxxx1*";
 driver.FindElement(By.Id("UserName")).SendKeys(userName);
 driver.FindElement(By.Id("Password")).SendKeys(password);
 driver.FindElement(By.Id("loginSubmit")).Click();
 ```
 	
-#####USING ASSERT TO REPORT FAILURE
-```c#
+##### USING ASSERT TO REPORT FAILURE
+```csharp
 if (driver.FindElement(By.Id("addCartItemItemNum")).Displayed != true)
 {
 	Assert.Fail("Unable to verify the Quick Order Portlet exists.");
 }
 ```
 	
-#####GETTING RADIO BUTTON VALUE
-```c#
+##### GETTING RADIO BUTTON VALUE
+```csharp
 string radioVal = driver.FindElement(By.ClassName("non")).GetAttribute("value");
 if (radioVal != "GR")
 {
@@ -64,8 +64,8 @@ if (radioVal != "GR")
 }
 ```
 	
-#####GET TEXT FIELD VALUE
-```c#
+##### GET TEXT FIELD VALUE
+```csharp
 string specialInstructionsValue = driver.FindElement(By.Id("ShippingNote")).Text;
 if (specialInstructionsFieldValue.Length > 0)
 {
@@ -74,8 +74,8 @@ if (specialInstructionsFieldValue.Length > 0)
 }
 ```
 	
-#####CYCLE THROUGH A NUMBER OF ELEMENTS & LOOK FOR TEXT
-```c#
+##### CYCLE THROUGH A NUMBER OF ELEMENTS & LOOK FOR TEXT
+```csharp
 IReadOnlyCollection<IWebElement> textAreas = driver.FindElements(By.ClassName("contentAreaText"));
 bool noneFound = false;
 foreach(IWebElement textArea in textAreas)
@@ -94,7 +94,7 @@ if (noneFound != true)
 ```
 
 Use **IList** to cycle through elements using the index...
-```c#
+```csharp
 IList<IWebElement> reviewLinks = driver.FindElements(By.LinkText("Review"));
 for (i = 1; i < reviewLinks.Count; i++)
 {
@@ -105,8 +105,8 @@ for (i = 1; i < reviewLinks.Count; i++)
 }
 ```
 
-#####ITERATE THROUGH A TABLE
-```c#
+##### ITERATE THROUGH A TABLE
+```csharp
 IWebElement table = driver.FindElement(By.ID("orderTable"));
 ReadOnlyCollection<IWebElement> allRows = table.FindElements(By.TagName("tr"));
 
@@ -121,23 +121,23 @@ foreach (IWebElement row in allRows)
 }
 ```
 
-#####FIND AN ELEMENT BY ATTRIBUTE & ATTRIBUTE'S VALUE
-```c#
+##### FIND AN ELEMENT BY ATTRIBUTE & ATTRIBUTE'S VALUE
+```csharp
 // use By.CSSSelector
 // There are numerous ways to grab 1 or more elements via this method
 // http://www.w3schools.com/cssref/css_selectors.asp
 IWebElement e = driver.FindElement(By.CssSelector("[alt=linkedIn]")).Click();
 ```
 
-#####SELECT OPTION IN DROP DOWN LIST
-```c#
+##### SELECT OPTION IN DROP DOWN LIST
+```csharp
 IWebElement CCDropDown = driver.FindElement(By.Id("CreditCardModel_CardType"));
 SelectElement select = new SelectElement(CCDropDown);
 select.SelectByText("Visa");
 ```
 
-#####RIGHT CLICK ON ELEMENT
-```c#
+##### RIGHT CLICK ON ELEMENT
+```csharp
 using OpenQA.Selenium.Interactions;
 
 
@@ -149,9 +149,9 @@ OpenQA.Selenium.Interactions.IAction rightClick = builder.ContextClick(gsearch).
 rightClick.Perform();
 ```
 
-#####XPATH
+##### XPATH
 Using XPATH is a powerful and easy way to find elements...
-```c#
+```csharp
 HTML button without ID or text
 <button class="big class blue">
 	<span>Ok</span>
@@ -173,27 +173,27 @@ Find all elements in the 2nd next sibling of td tag having innertext = ‘gender
 Find input elements in the 2nd next sibling of td tag having innertext = ‘gender’	| //td[text()='Gender']//following-sibling::*[2]//input
 Find the td which contains font element containing the text ‘12’			| //td[font[contains(text(),'12')]]
 
-#####WRITING INFO TO LOG
-```c#
+##### WRITING INFO TO LOG
+```csharp
 Using System.Diagnostics;
 
 Debug.WriteLine("Hello, World!");
 ```
 
 
-#####TRACING FAILURES
+##### TRACING FAILURES
 On the stack trace of a run(in the bottom sub-panel of the Test Explorer panel) you will see numerous trace statements. You only want to pay attention to the bottom-most trace line. Hovering over it with your mouse will show you the line the error occured on(like when it can't find the element). Clicking on the bottom-most line will take you to the line where the test failed. You do not need to run in debug mode for this. 
 
 
-```c#
+```csharp
 Using System.Diagnostics;
 Assert.Inconclusive("I am an inconclusive message");
 ```
 Note that this will end the test after the statement. Warning icon will show instead of pass or fail. 
 
-#####WORKING WITH EXCEL
+##### WORKING WITH EXCEL
 The following example grabs all the rows from all the sheets of a workbook and puts the data into a dictionary.
-```c#
+```csharp
 using System;
 using System.IO;
 using System.Diagnostics;
@@ -328,16 +328,16 @@ namespace SmokeTests.New_Functionality
     }
 }
 ```
-###PAGE OBJECT MODEL
+### PAGE OBJECT MODEL
 We will be using the Page Object Model (POM) to organize the automation code and tests.  The objective is to separate the details of the site implementation from the actual test. 
 
-#####Important points
+##### Important points
 
 + The public methods represent the services that the page offers
 + Try not to expose the internals of the page
 + Tests, not the PageObjects, should be responsible for making assertions about the state of a page
 + Return "this" if no navigation takes page, return the new page object if navigation to other page.
-```c#
+```csharp
 public HomePage setPasswordField(string password)
 {
 	driver.FindElement(PasswordField).SendKeys(password);
@@ -346,7 +346,7 @@ public HomePage setPasswordField(string password)
 ```
 
 + If navigating to a new page, return a new object of the navigated to page...
-```c#
+```csharp
 public HomePage login(string userName, string password)
 {
 	setUserNameField(userName);
@@ -356,7 +356,7 @@ public HomePage login(string userName, string password)
 }
 ```
 
-###PROJECT STRUCTURE
+### PROJECT STRUCTURE
 
 + Solution - Dental, Veterinary, PMI, Medical, etc...
 	+ Project - Smoke Tests, Regression
@@ -367,12 +367,12 @@ public HomePage login(string userName, string password)
 				
 	
 	
-###CREATING LIBRARIES
+### CREATING LIBRARIES
 
 You will want to create function libraries that share the "driver" object(which is just IWebDriver) so all WebDriver commands go to the same driver. This can be done by setting your library's "driver" to your test class' [TestInitialize] section, which will always run. So here's a quick template:
 
 
-```c#
+```csharp
     [TestClass]
     public class Regression_Ordering
     {
@@ -388,7 +388,7 @@ You will want to create function libraries that share the "driver" object(which 
 
 Now here's what the libary class(Gen2) looks like:
 
-```c#
+```csharp
     public static class Gen2
     {
         public static IWebDriver driver = null; // set in your test class
@@ -404,7 +404,7 @@ Now here's what the libary class(Gen2) looks like:
 So using a library function int your test would look like this:
 
 
-```c#
+```csharp
         [TestMethod]
         public void TestPrototype()
         {
@@ -414,10 +414,10 @@ So using a library function int your test would look like this:
 ```  	
 
 
-## USING SHARED PARAMETERS
+## HUSING SHARED PARAMETERS
 
 First, you need to incorporate TestContext which is easy. This is done at the class declaration at each .cs file. Just put it after the public IWebDriver declaration
-```c#
+```csharp
         private TestContext testContextInstance;
         public TestContext TestContext
         {
@@ -428,7 +428,7 @@ First, you need to incorporate TestContext which is easy. This is done at the cl
 
 Then we do the header, and the rest of the code. For "2581", replace it with a test case that uses a shared parameter table, otherwise it says it's empty. If there's 20 rows in the shared parameter table, 20 tests will be run(one for each data row)
 
-```c#
+```csharp
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.TestCase", "http://our.server/tfs;CoreProject", "2581", DataAccessMethod.Sequential)]  // works!
 
         [TestMethod]
@@ -444,31 +444,31 @@ Then we do the header, and the rest of the code. For "2581", replace it with a t
 ```
 
 
-##SYNTAX, RULES, AND BEST PRACTICES
+## SYNTAX, RULES, AND BEST PRACTICES
 
-#####Variables that reference fields should match the label of the field on the screen.
-```c#
+##### Variables that reference fields should match the label of the field on the screen.
+```csharp
 IWebElement SignInButton = driver.FindElement(By.Id("SignInButton"));
 
 NOT
 
 IWebElement SIbtn = driver.FindElement(By.Id("SignInButton"));//or similar
 ```
-#####Be verbose with variable names.
+##### Be verbose with variable names.
 For example, don't shorten "admin" to "adm".
-#####Do not abbreviate fields or parameters. Spell them out to remove ambiguity.
-#####Use inner parenthesis in expressions.
+##### Do not abbreviate fields or parameters. Spell them out to remove ambiguity.
+##### Use inner parenthesis in expressions.
 Most of the time it doesn’t make any difference at all to the compiled code. It is however easier to read when a piece of code has something like:
-```c#
+```csharp
 if((x==Y) && ((y != 10)||(y < 299)) && (DateTime.Now.Year > 2013))
 {
 	...
 }
 ```
-#####Never check in commented out code.
+##### Never check in commented out code.
 With version control, there isn't any need to keep in old code that doesn't work for reference.
 
-#####Naming Conventions - TODO: this is still in progress and not actually decided on yet.
+##### Naming Conventions - TODO: this is still in progress and not actually decided on yet.
 + Variables - lowerCamelCase. Example: itemNumber
 + Fields - UpperCamelCase. Example: SpecialInstructionsField
 + Objects - UpperCamelCase. Example: ItemTable
@@ -477,8 +477,8 @@ With version control, there isn't any need to keep in old code that doesn't work
 + Test Method Names - UpperCamelCase and should match actual test name. Example: ???
 + Test Class Name - UpperCamelCase and should match the test folder.
 
-#####If you're doing a LOT of string concantenating, use StringBuilder instead of string concatenation...
-```c#
+##### If you're doing a LOT of string concantenating, use StringBuilder instead of string concatenation...
+```csharp
 //StringBuilder is part of System.Text
 using System.Text;
 
@@ -490,8 +490,8 @@ foreach (string rowName in giantList)
 allText.Replace(" ", ",");
 ```
 
-#####Use .Contains() instead of .IndexOf when determining if text exists in a certain context. .IndexOf should be used when getting the index of text within a text, but not to just determine if it exists.
-```c#
+##### Use .Contains() instead of .IndexOf when determining if text exists in a certain context. .IndexOf should be used when getting the index of text within a text, but not to just determine if it exists.
+```csharp
 if (divText.Contains(expectedText)
 {
 	test.recordStep("Step Passed");
@@ -503,7 +503,7 @@ else
 //IndexOf example
 int textPosition = divText.IndexOf("ending in");
 ```
-##App Config
+## App Config
 Edit your app.config file(at the project level) to look like this. 
 You can add as many keys as you want.
 
@@ -522,19 +522,19 @@ You can add as many keys as you want.
 </configuration>
 ```
 
-######Required statements
-````c#
+###### Required statements
+````csharp
 using System.Configuration;
 ```
 
-######How to read config data
+###### How to read config data
 Just make a string variable, and read in the value as such
-```c#
+```csharp
 string myenv = ConfigurationManager.AppSettings["TestEnvironment"];
 ```
 
-##HELPFUL SQL QUERIES
-###VET
+## HELPFUL SQL QUERIES
+### VET
 Get active customer with balance
 ```sql
 SELECT TOP(1) U.UserName FROM custrep.dbo.CUSTOMER C
